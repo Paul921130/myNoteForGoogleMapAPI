@@ -74,7 +74,7 @@
   </body>
 </html>
 ```
----
+
 ```html
 <script>
 async defer
@@ -82,7 +82,7 @@ src ="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
 </script>
 ```
 script 會從指定的網址載入 API。 當 API 完全載入之後，callback 參數會執行 initMap 函式。 載入 API 時，async 屬性可讓瀏覽器繼續轉譯網頁的剩餘部分。key 參數包含您的 API 金鑰。 在 JSFiddle 中實驗此教學課程時，您不需要自己的 API 金鑰。 請參閱步驟 3：取得 API 金鑰以取得有關如何在稍後取得 API 金鑰的操作說明。
----
+
 ```html
 <script>
   function initMap() {
@@ -90,12 +90,12 @@ script 會從指定的網址載入 API。 當 API 完全載入之後，callback 
 </script>
 ```
 initMap 函式會在網頁載入時初始化並新增地圖。 使用 script 標記包含您自己的 JavaScript （其中包含 initMap 函式）。
----
+
 ```javascript
 getElementById
 ```
 新增此函式以在網頁上尋找地圖 div。
----
+
 ```javascript
 {
   var uluru = {lat: -25.363, lng: 131.044};
@@ -111,7 +111,7 @@ getElementById
 center 屬性會告知 API 要在哪裡放置地圖中心。 地圖座標是以下列順序設定：緯度、經度。 
 zoom 屬性指定地圖的縮放層級。 
 縮放：0 是最低的縮放，而且會顯示整個地球。設定較高的縮放值可以較高的解析度放大地球。
----
+
 ```javascript
 var marker = new google.maps.Marker({
   position: uluru,
@@ -119,7 +119,7 @@ var marker = new google.maps.Marker({
 });
 ```
 新增此程式碼以在地圖上放置標記。 position 屬性可設定標記的位置。
----
+
 ```html
 
 ```
