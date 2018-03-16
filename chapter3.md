@@ -1,11 +1,9 @@
 # 將資料匯入到地圖
 
-### 自己試試看
-
 ## 概要
 &emsp;&emsp;了解如何從本地或遠端來源匯入 [GeoJSON](https://developers.google.com/maps/documentation/javascript/importing_data?hl=zh-tw#data) 資料，並在地圖上顯示它。 此教學課程使用下面的地圖來說明將資料匯入到地圖的各種技術。
 
-## 自己試試看
+### 自己試試看
 ```html
 <!DOCTYPE html>
 <html>
@@ -82,6 +80,25 @@ Access-Control-Allow-Origin: *
 從此網域載入資料的方式，與從相同網域載入JSON相同:
 ```js
 map.data.loadGeoJson('http://www.CORS-ENABLED-SITE.com/data.json');
+```
+## 要求JSONP
+目標網域必須支援[JSONP](https://developers.google.com/maps/documentation/javascript/importing_data?hl=zh-tw#JSONP)的要求
+
+若要要求JSONP，請使用createElement() 將 script 標記新增到文件開頭。
+```js
+var script = document.createElement('script');
+script.src = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp';
+document.getElementsByTagName('head')[0].appendChild(script);
+```
+當該指令碼執行時，目標網域會傳遞資料做為 another script 的引數，通常名為 callback()。目標網域會定義回呼指令碼名稱，該名稱通常是您在瀏覽器中載入目標網址時，頁面上的第一個名稱。
+
+例如，在瀏覽器視窗中載入 [http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp](http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp) 以顯示名為 eqfeed_callback 的回呼名稱。
+
+必須在程式碼中定義callback function:
+```js
+function eqfeed_callback(response) {
+  map.data.addGeoJson(response);
+}
 ```
 
 &emsp;&emsp;
