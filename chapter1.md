@@ -75,6 +75,27 @@
 </html>
 ```
 
+```html
+<script>
+async defer
+src ="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+</script>
+```
+script 會從指定的網址載入 API。 當 API 完全載入之後，callback 參數會執行 initMap 函式。 載入 API 時，async 屬性可讓瀏覽器繼續轉譯網頁的剩餘部分。key 參數包含您的 API 金鑰。 在 JSFiddle 中實驗此教學課程時，您不需要自己的 API 金鑰。 請參閱步驟 3：取得 API 金鑰以取得有關如何在稍後取得 API 金鑰的操作說明。
+
+```html
+<script>
+  function initMap() {
+  }
+</script>
+```
+initMap 函式會在網頁載入時初始化並新增地圖。 使用 script 標記包含您自己的 JavaScript （其中包含 initMap 函式）。
+
+```javascript
+getElementById
+```
+新增此函式以在網頁上尋找地圖 div。
+
 
 ```html
 
