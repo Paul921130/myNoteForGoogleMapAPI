@@ -96,6 +96,29 @@ getElementById
 ```
 新增此函式以在網頁上尋找地圖 div。
 
+```javascript
+{
+  var uluru = {lat: -25.363, lng: 131.044};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: uluru
+  });
+
+}
+```
+新增屬性（包括中心與縮放層級）到地圖。 請參閱 其他屬性選項的文件。 
+center 屬性會告知 API 要在哪裡放置地圖中心。 地圖座標是以下列順序設定：緯度、經度。 
+zoom 屬性指定地圖的縮放層級。 
+縮放：0 是最低的縮放，而且會顯示整個地球。設定較高的縮放值可以較高的解析度放大地球。
+<br>
+```javascript
+var marker = new google.maps.Marker({
+  position: uluru,
+  map: map
+});
+```
+新增此程式碼以在地圖上放置標記。 position 屬性可設定標記的位置。
 
 ```html
 
