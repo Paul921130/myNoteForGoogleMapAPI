@@ -99,17 +99,20 @@
 
 1.從 GitHub 取得標記群集程式庫與影像，並將它們儲存在應用程式可以存取的伺服器上。適用於 MarkerClusterer 的 JavaScript 程式庫與影像檔可在 GitHub 的 Google 地圖存放區中取得。將下列檔案從 GitHub 下載或複製到應用程式可以存取的位置：
 <br>
-  <span style="width: 10px;height: 10px;background: black;border-radius: 50%;"></span>[markerclusterer.js](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/src/markerclusterer.js)
+  ●[markerclusterer.js](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/src/markerclusterer.js)
 <br>
-  [m1.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m1.png)
+  ●[m1.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m1.png)
 <br>
-  [m2.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m2.png)
+  ●[m2.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m2.png)
 <br>
-  [m3.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m3.png)
+  ●[m3.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m3.png)
 <br>
-  [m4.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m4.png)
+  ●[m4.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m4.png)
 <br>
-  [m5.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m5.png)
+  ●[m5.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m5.png)
+
+
+
 &emsp;&emsp;
 
 ```html
