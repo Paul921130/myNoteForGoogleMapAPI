@@ -1,0 +1,375 @@
+<div class="devsite-article-body clearfix
+            " itemprop="articleBody">
+    
+
+<h2 id="introduction"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>簡介</h2>
+
+<p>標記能識別地圖上的位置。根據預設，標記使用標準影像。標記可以顯示自訂影像，在這種情況下，它們通常被稱為「圖示」。標記和圖示是 <code>Marker</code> 類型的物件。如果要設定自訂圖示，您可以在標記的建構函式內設定，或是藉由在標記上呼叫 <code>setIcon()</code>。請參閱<a href="#icons">下方</a>以取得更多有關自訂標記影像的內容。</p>
+
+<p>廣泛來說，標記是一種疊加層。如需其他疊加層類型的詳細資訊，請參閱<a href="https://developers.google.com/maps/documentation/javascript/overlays?hl=zh-tw">在地圖上進行繪製</a>。</p>
+
+<p>標記是以提供互動性為前提而設計的。例如，標記預設能接收 <code>'click'</code> 事件，讓您可以新增事件接聽程式，以帶出能顯示自訂資訊的<a href="https://developers.google.com/maps/documentation/javascript/infowindows?hl=zh-tw#open">資訊視窗</a>。將標記的 <code>draggable</code> 屬性設定成 <code>true</code>，即可讓使用者移動地圖上的標記。如需可拖曳標記的詳細資訊，請參閱<a href="#draggable">下方的內容</a>。</p>
+
+<h2 id="add"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>新增標記</h2>
+
+<p><code>google.maps.Marker</code> 建構函式使用單一 <code><em>Marker options</em></code> 物件常值，用來指定標記的初始屬性。</p>
+
+<p>下列欄位特別重要，並時常會在建構標記時設定：</p>
+
+<ul>
+  <li><code>position</code> （必要）指定識別標記初始位置的 <code>LatLng</code>。擷取 <code>LatLng</code> 的一種方法是使用<a href="https://developers.google.com/maps/documentation/javascript/geocoding?hl=zh-tw">地理編碼服務</a>。</li>
+  <li><code>map</code> （選擇性）指定放置標記的 <code>Map</code>。如果您沒有在建構標記時指定地圖，系統還是會建立標記，但是該標記將不會附加到地圖（或是在地圖上顯示）。您可以透過呼叫標記的 <code>setMap()</code> 方法來於稍後新增標記。</li>
+</ul>
+
+<p>下列範例會將一個簡單的標記新增到位於澳洲中央烏盧魯的地圖：</p>
+
+<div class="devsite-jsfiddle-code-sample devsite-jsfiddle-hide" data-scope="marker-simple">
+  <pre data-type="js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>function initMap() {
+  var myLatLng = {lat: -25.363, lng: 131.044};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;div id="map"&gt;&lt;/div&gt;</pre>
+  <pre data-type="css"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div> &lt;!-- Replace the value of the key parameter with your own API key. --&gt;
+&lt;script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&amp;callback=initMap"&gt;
+&lt;/script&gt;</pre>
+</div>
+<pre class="prettyprint notranslate lang-javascript devsite-enable-open-in-jsfiddle" data-scope="marker-simple" data-jsfiddle-title="Simple markers"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-jsfiddle-button" data-category="jsfiddle" data-label="marker-simple" track-type="exampleCode" track-name="jsfiddle" data-tooltip-align="b,c" data-tooltip="在 JSFiddle 中開啟" aria-label="在 JSFiddle 中開啟" data-title="在 JSFiddle 中開啟"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">function</span><span class="pln"> initMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> myLatLng </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="lit">25.363</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">131.044</span><span class="pun">};</span><span class="pln"><br><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'map'</span><span class="pun">),</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; center</span><span class="pun">:</span><span class="pln"> myLatLng<br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> myLatLng</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; title</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Hello World!'</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br></span><span class="pun">}</span></pre>
+
+<p>在上面的範例中，建構標記時可以透過標記選項中的 <code>map</code> 屬性，將標記放置在地圖上。或者，您可以使用標記的 <code>setMap()</code> 方法直接將標記新增到地圖，如下列範例中所示：</p>
+
+<pre class="prettyprint notranslate lang-js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">var</span><span class="pln"> myLatlng </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">LatLng</span><span class="pun">(-</span><span class="lit">25.363882</span><span class="pun">,</span><span class="lit">131.044922</span><span class="pun">);</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> mapOptions </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln"><br>&nbsp; center</span><span class="pun">:</span><span class="pln"> myLatlng<br></span><span class="pun">}</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">"map"</span><span class="pun">),</span><span class="pln"> mapOptions</span><span class="pun">);</span><span class="pln"><br><br></span><span class="kwd">var</span><span class="pln"> marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> myLatlng</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; title</span><span class="pun">:</span><span class="str">"Hello World!"</span><span class="pln"><br></span><span class="pun">});</span><span class="pln"><br><br></span><span class="com">// To add the marker to the map, call setMap();</span><span class="pln"><br>marker</span><span class="pun">.</span><span class="pln">setMap</span><span class="pun">(</span><span class="pln">map</span><span class="pun">);</span></pre>
+
+<p>標記的 <code>title</code> 會顯示為工具提示。</p>
+
+<p>如果您不想在標記的建構函式中傳遞任何 <code><em>Marker options</em></code>，請在建構函式的最後一個引數中傳遞一個空的物件 <code>{}</code>。</p>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/marker-simple?hl=zh-tw">檢視範例 (marker-simple.html)</a>。</p>
+
+<h2 id="remove"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>移除標記</h2>
+
+<p>如果要從地圖移除標記，請呼叫 <code>setMap()</code> 方法，傳遞 <code>null</code> 做為引數。</p>
+
+<pre class="prettyprint notranslate lang-javascript"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="pln">marker</span><span class="pun">.</span><span class="pln">setMap</span><span class="pun">(</span><span class="kwd">null</span><span class="pun">);</span></pre>
+
+<p>請注意，上面的方法不會刪除標記。它只會從地圖移除標記。如果您想要刪除標記，便應該先從地圖移除它，然後將標記自身設為 <code>null</code>。</p>
+
+<p>如果您想要管理一組標記，則應該建立一個陣列來容納那些標記。透過這個陣列，您可以在需要移除標記時，於陣列中的該標記上呼叫 <code>setMap()</code>。從地圖移除標記，然後將陣列的 <code>length</code> 設成 <code>0</code> 來移除對標記的所有參照，即可刪除標記。</p>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/marker-remove?hl=zh-tw">檢視範例 (marker-remove.html)</a>。</p>
+
+<h2 id="animate"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>建立動畫標記</h2>
+
+<p>您可以建立動畫標記，來使它們在各種不同的情況下展現動態的動作。如果要指定標記的動畫方式，請使用標記的 <code>animation</code> 屬性，它屬於 <code>google.maps.Animation</code> 類型。以下是支援的 <code>Animation</code> 值：</p>
+
+<ul>
+  <li><code>DROP</code> 指出標記在一開始放置於地圖上時，要從地圖的上方掉落到最終位置。標記停止時，動畫也會停止，<code>animation</code> 會回復到 <code>null</code>。這個動畫類型通常是在建立 <code>Marker</code> 時指定。</li>
+  <li><code>BOUNCE</code> 指出標記在原地彈跳。彈跳標記會持續彈跳，直到它的 <code>animation</code> 屬性明確設成 <code>null</code> 才會停止。</li>
+</ul>
+
+<p>在 <code>Marker</code> 物件上呼叫 <code>setAnimation()</code>，可在現有標記上初始化一個動畫。</p>
+
+<div class="devsite-jsfiddle-code-sample devsite-jsfiddle-hide" data-scope="marker-animations">
+  <pre data-type="js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>// The following example creates a marker in Stockholm, Sweden using a DROP
+// animation. Clicking on the marker will toggle the animation between a BOUNCE
+// animation and no animation.
+
+var marker;
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: {lat: 59.325, lng: 18.070}
+  });
+
+  marker = new google.maps.Marker({
+    map: map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    position: {lat: 59.327, lng: 18.067}
+  });
+  marker.addListener('click', toggleBounce);
+}
+
+function toggleBounce() {
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;div id="map"&gt;&lt;/div&gt;</pre>
+  <pre data-type="css"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div> &lt;!-- Replace the value of the key parameter with your own API key. --&gt;
+&lt;script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&amp;callback=initMap"&gt;
+&lt;/script&gt;</pre>
+</div>
+<pre class="prettyprint notranslate lang-javascript devsite-enable-open-in-jsfiddle" data-scope="marker-animations" data-jsfiddle-title="Marker Animations"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-jsfiddle-button" data-category="jsfiddle" data-label="marker-animations" track-type="exampleCode" track-name="jsfiddle" data-tooltip-align="b,c" data-tooltip="在 JSFiddle 中開啟" aria-label="在 JSFiddle 中開啟" data-title="在 JSFiddle 中開啟"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="com">// The following example creates a marker in Stockholm, Sweden using a DROP</span><span class="pln"><br></span><span class="com">// animation. Clicking on the marker will toggle the animation between a BOUNCE</span><span class="pln"><br></span><span class="com">// animation and no animation.</span><span class="pln"><br><br></span><span class="kwd">var</span><span class="pln"> marker</span><span class="pun">;</span><span class="pln"><br><br></span><span class="kwd">function</span><span class="pln"> initMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'map'</span><span class="pun">),</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">13</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; center</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="lit">59.325</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">18.070</span><span class="pun">}</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; draggable</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; animation</span><span class="pun">:</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Animation</span><span class="pun">.</span><span class="pln">DROP</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="lit">59.327</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">18.067</span><span class="pun">}</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br>&nbsp; marker</span><span class="pun">.</span><span class="pln">addListener</span><span class="pun">(</span><span class="str">'click'</span><span class="pun">,</span><span class="pln"> toggleBounce</span><span class="pun">);</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="kwd">function</span><span class="pln"> toggleBounce</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">marker</span><span class="pun">.</span><span class="pln">getAnimation</span><span class="pun">()</span><span class="pln"> </span><span class="pun">!==</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; marker</span><span class="pun">.</span><span class="pln">setAnimation</span><span class="pun">(</span><span class="kwd">null</span><span class="pun">);</span><span class="pln"><br>&nbsp; </span><span class="pun">}</span><span class="pln"> </span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; marker</span><span class="pun">.</span><span class="pln">setAnimation</span><span class="pun">(</span><span class="pln">google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Animation</span><span class="pun">.</span><span class="pln">BOUNCE</span><span class="pun">);</span><span class="pln"><br>&nbsp; </span><span class="pun">}</span><span class="pln"><br></span><span class="pun">}</span></pre>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/marker-animations?hl=zh-tw">檢視範例 (marker-animations.html)</a>。</p>
+
+<p>如果您有許多標記，則可能不希望它們一次全部落在地圖上。您可以使用 <code>setTimeout()</code>，透過下面所示的模式來建立標記動畫的間隔：</p>
+
+<pre class="prettyprint notranslate lang-javascript"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">function</span><span class="pln"> drop</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> i </span><span class="pun">=</span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;</span><span class="pln"> </span><em><span class="pln">markerArray</span></em><span class="pun">.</span><span class="pln">length</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; setTimeout</span><span class="pun">(</span><span class="kwd">function</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; </span><em><span class="pln">addMarkerMethod</span></em><span class="pun">();</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="pun">},</span><span class="pln"> i </span><span class="pun">*</span><span class="pln"> </span><span class="lit">200</span><span class="pun">);</span><span class="pln"><br>&nbsp; </span><span class="pun">}</span><span class="pln"><br></span><span class="pun">}</span></pre>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/marker-animations-iteration?hl=zh-tw"> 檢視範例 (marker-animations-iteration.html)</a>。</p>
+
+
+<h2 id="icons"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>自訂標記影像</h2>
+
+<p>如果您要在標記上顯示單一字母或數字，您可以使用標記標籤。如果需要更大的自訂空間，您可以定義顯示圖示而不是顯示預設的標記影像。定義圖示將牽涉到設定一些可以決定標記視覺行為的屬性。</p>
+
+<p>下面各節將說明標記標籤、簡單圖示、複雜圖示及符號（向量圖示）。</p>
+
+<h3 id="marker_labels">標記標籤</h3> <img src="https://developers.google.com/maps/documentation/javascript/images/markerlabel.png?hl=zh-tw" height="70px" width="60px" class="screenshot attempt-right"> <p>標記標籤是顯示在標記內的字母或數字。此節中的標記影像顯示其上有字母 'B' 的標記標籤。您可以將標記標籤指定為字串，或指定為包含字串及其他標籤屬性的 <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#MarkerLabel"><code>MarkerLabel</code></a> 物件。
+</p>
+
+<p>建立標記時，您可以在 <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#MarkerOptions"><code>MarkerOptions</code></a> 物件中指定 <code>label</code> 屬性。或者，您可以在 <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#Marker">Marker</a> 物件上呼叫 <code>setLabel()</code>，來在現有標記上設定標籤。</p>
+
+<p>下列範例會在使用者在地圖上按一下時顯示具有標籤的標記：</p>
+
+<div class="devsite-jsfiddle-code-sample devsite-jsfiddle-hide" data-scope="marker-labels">
+  <pre data-type="js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>// In the following example, markers appear when the user clicks on the map.
+// Each marker is labeled with a single alphabetical character.
+var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var labelIndex = 0;
+
+function initialize() {
+  var bangalore = { lat: 12.97, lng: 77.59 };
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: bangalore
+  });
+
+  // This event listener calls addMarker() when the map is clicked.
+  google.maps.event.addListener(map, 'click', function(event) {
+    addMarker(event.latLng, map);
+  });
+
+  // Add a marker at the center of the map.
+  addMarker(bangalore, map);
+}
+
+// Adds a marker to the map.
+function addMarker(location, map) {
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+  var marker = new google.maps.Marker({
+    position: location,
+    label: labels[labelIndex++ % labels.length],
+    map: map
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;div id="map"&gt;&lt;/div&gt;</pre>
+  <pre data-type="css"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;!-- Replace the value of the key parameter with your own API key. --&gt;
+&lt;script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk"&gt;&lt;/script&gt;
+</pre>
+</div>
+<pre class="prettyprint notranslate lang-javascript devsite-enable-open-in-jsfiddle" data-scope="marker-labels" data-jsfiddle-title="Marker Labels"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-jsfiddle-button" data-category="jsfiddle" data-label="marker-labels" track-type="exampleCode" track-name="jsfiddle" data-tooltip-align="b,c" data-tooltip="在 JSFiddle 中開啟" aria-label="在 JSFiddle 中開啟" data-title="在 JSFiddle 中開啟"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="com">// In the following example, markers appear when the user clicks on the map.</span><span class="pln"><br></span><span class="com">// Each marker is labeled with a single alphabetical character.</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> labels </span><span class="pun">=</span><span class="pln"> </span><span class="str">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span><span class="pun">;</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> labelIndex </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"><br><br></span><span class="kwd">function</span><span class="pln"> initialize</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> bangalore </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> lat</span><span class="pun">:</span><span class="pln"> </span><span class="lit">12.97</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">77.59</span><span class="pln"> </span><span class="pun">};</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'map'</span><span class="pun">),</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">12</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; center</span><span class="pun">:</span><span class="pln"> bangalore<br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; </span><span class="com">// This event listener calls addMarker() when the map is clicked.</span><span class="pln"><br>&nbsp; google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="pln">addListener</span><span class="pun">(</span><span class="pln">map</span><span class="pun">,</span><span class="pln"> </span><span class="str">'click'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="kwd">event</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; addMarker</span><span class="pun">(</span><span class="kwd">event</span><span class="pun">.</span><span class="pln">latLng</span><span class="pun">,</span><span class="pln"> map</span><span class="pun">);</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; </span><span class="com">// Add a marker at the center of the map.</span><span class="pln"><br>&nbsp; addMarker</span><span class="pun">(</span><span class="pln">bangalore</span><span class="pun">,</span><span class="pln"> map</span><span class="pun">);</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="com">// Adds a marker to the map.</span><span class="pln"><br></span><span class="kwd">function</span><span class="pln"> addMarker</span><span class="pun">(</span><span class="pln">location</span><span class="pun">,</span><span class="pln"> map</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="com">// Add the marker at the clicked location, and add the next-available label</span><span class="pln"><br>&nbsp; </span><span class="com">// from the array of alphabetical characters.</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> location</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; label</span><span class="pun">:</span><span class="pln"> labels</span><span class="pun">[</span><span class="pln">labelIndex</span><span class="pun">++</span><span class="pln"> </span><span class="pun">%</span><span class="pln"> labels</span><span class="pun">.</span><span class="pln">length</span><span class="pun">],</span><span class="pln"><br>&nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map<br>&nbsp; </span><span class="pun">});</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br>google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="pln">addDomListener</span><span class="pun">(</span><span class="pln">window</span><span class="pun">,</span><span class="pln"> </span><span class="str">'load'</span><span class="pun">,</span><span class="pln"> initialize</span><span class="pun">);</span></pre>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/marker-labels?hl=zh-tw">檢視範例 (marker-labels.html)</a>。</p>
+
+<h3 id="simple_icons">簡單圖示</h3>
+
+<p>在大部分的基本情況中，圖示可以單純指示用來取代預設「Google 地圖」大頭針圖示的影像。如果要指定這種圖示，請將標記的 <code>icon</code> 屬性設成該影像的 URL。Google Maps JavaScript API 將自動調整圖示的大小。</p>
+
+<div class="devsite-jsfiddle-code-sample devsite-jsfiddle-hide" data-scope="icon-simple">
+  <pre data-type="js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>// This example adds a marker to indicate the position of Bondi Beach in Sydney,
+// Australia.
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: {lat: -33, lng: 151}
+  });
+
+  var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+  var beachMarker = new google.maps.Marker({
+    position: {lat: -33.890, lng: 151.274},
+    map: map,
+    icon: image
+  });
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;div id="map"&gt;&lt;/div&gt;</pre>
+  <pre data-type="css"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div> &lt;!-- Replace the value of the key parameter with your own API key. --&gt;
+&lt;script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&amp;callback=initMap"&gt;
+&lt;/script&gt;</pre>
+</div>
+<pre class="prettyprint notranslate lang-javascript devsite-enable-open-in-jsfiddle" data-scope="icon-simple" data-jsfiddle-title="Simple icons"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-jsfiddle-button" data-category="jsfiddle" data-label="icon-simple" track-type="exampleCode" track-name="jsfiddle" data-tooltip-align="b,c" data-tooltip="在 JSFiddle 中開啟" aria-label="在 JSFiddle 中開啟" data-title="在 JSFiddle 中開啟"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="com">// This example adds a marker to indicate the position of Bondi Beach in Sydney,</span><span class="pln"><br></span><span class="com">// Australia.</span><span class="pln"><br></span><span class="kwd">function</span><span class="pln"> initMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'map'</span><span class="pun">),</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; center</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">151</span><span class="pun">}</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> image </span><span class="pun">=</span><span class="pln"> </span><span class="str">'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'</span><span class="pun">;</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> beachMarker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.890</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">151.274</span><span class="pun">},</span><span class="pln"><br>&nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; icon</span><span class="pun">:</span><span class="pln"> image<br>&nbsp; </span><span class="pun">});</span><span class="pln"><br></span><span class="pun">}</span></pre>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/icon-simple?hl=zh-tw">檢視範例 (icon-simple.html)</a>。</p>
+
+<h3 id="complex_icons">複雜圖示</h3>
+
+<p>您可能想要指定複雜的形狀來指示可點選地區，以及指定圖示相對於其他疊加層（它們的「堆疊順序」）的顯示方式。如果要以這種方式指定圖示，應該將該圖示的 <code>icon</code> 屬性設成 <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#Icon"><code>Icon</code></a> 類型的物件。
+</p>
+
+<p>
+  <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#Icon"><code>Icon</code></a> 物件可定義影像。它們也定義圖示的 <code>size</code>、<code>origin</code> （例如，如果您想要的影像屬於較大影像的一部分），以及應該放置圖示熱點的 <code>anchor</code> （根據原點來決定）。</p>
+
+<p>如果您的自訂標記使用 <a href="#marker_labels">label</a>，則可以使用 <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference?hl=zh-tw#Icon"><code>Icon</code></a> 物件中的 <code>labelOrigin</code> 屬性來指定標籤的位置。</p>
+
+<aside class="note"><strong>注意：</strong>Google Maps JavaScript API 版本 3.14 已移除標記陰影。任何透過程式設計方法所指定的陰影都會被忽略。</aside>
+
+<div class="devsite-jsfiddle-code-sample devsite-jsfiddle-hide" data-scope="icon-complex">
+  <pre data-type="js"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>// The following example creates complex markers to indicate beaches near
+// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+// to the base of the flagpole.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: {lat: -33.9, lng: 151.2}
+  });
+
+  setMarkers(map);
+}
+
+// Data for the markers consisting of a name, a LatLng and a zIndex for the
+// order in which these markers should display on top of each other.
+var beaches = [
+  ['Bondi Beach', -33.890542, 151.274856, 4],
+  ['Coogee Beach', -33.923036, 151.259052, 5],
+  ['Cronulla Beach', -34.028249, 151.157507, 3],
+  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+  ['Maroubra Beach', -33.950198, 151.259302, 1]
+];
+
+function setMarkers(map) {
+  // Adds markers to the map.
+
+  // Marker sizes are expressed as a Size of X,Y where the origin of the image
+  // (0,0) is located in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker increase in the X
+  // direction to the right and in the Y direction down.
+  var image = {
+    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    // This marker is 20 pixels wide by 32 pixels high.
+    size: new google.maps.Size(20, 32),
+    // The origin for this image is (0, 0).
+    origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+    anchor: new google.maps.Point(0, 32)
+  };
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // &lt;area&gt; element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+  var shape = {
+    coords: [1, 1, 1, 20, 18, 20, 18, 1],
+    type: 'poly'
+  };
+  for (var i = 0; i &lt; beaches.length; i++) {
+    var beach = beaches[i];
+    var marker = new google.maps.Marker({
+      position: {lat: beach[1], lng: beach[2]},
+      map: map,
+      icon: image,
+      shape: shape,
+      title: beach[0],
+      zIndex: beach[3]
+    });
+  }
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>&lt;div id="map"&gt;&lt;/div&gt;</pre>
+  <pre data-type="css"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div>/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}</pre>
+  <pre data-type="html"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div></div> &lt;!-- Replace the value of the key parameter with your own API key. --&gt;
+&lt;script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&amp;callback=initMap"&gt;
+&lt;/script&gt;</pre>
+</div>
+<pre class="prettyprint notranslate lang-javascript devsite-enable-open-in-jsfiddle" data-scope="icon-complex" data-jsfiddle-title="Complex icons"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-jsfiddle-button" data-category="jsfiddle" data-label="icon-complex" track-type="exampleCode" track-name="jsfiddle" data-tooltip-align="b,c" data-tooltip="在 JSFiddle 中開啟" aria-label="在 JSFiddle 中開啟" data-title="在 JSFiddle 中開啟"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="com">// The following example creates complex markers to indicate beaches near</span><span class="pln"><br></span><span class="com">// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond</span><span class="pln"><br></span><span class="com">// to the base of the flagpole.</span><span class="pln"><br><br></span><span class="kwd">function</span><span class="pln"> initMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">'map'</span><span class="pun">),</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">10</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; center</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.9</span><span class="pun">,</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> </span><span class="lit">151.2</span><span class="pun">}</span><span class="pln"><br>&nbsp; </span><span class="pun">});</span><span class="pln"><br><br>&nbsp; setMarkers</span><span class="pun">(</span><span class="pln">map</span><span class="pun">);</span><span class="pln"><br></span><span class="pun">}</span><span class="pln"><br><br></span><span class="com">// Data for the markers consisting of a name, a LatLng and a zIndex for the</span><span class="pln"><br></span><span class="com">// order in which these markers should display on top of each other.</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> beaches </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="pln"><br>&nbsp; </span><span class="pun">[</span><span class="str">'Bondi Beach'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.890542</span><span class="pun">,</span><span class="pln"> </span><span class="lit">151.274856</span><span class="pun">,</span><span class="pln"> </span><span class="lit">4</span><span class="pun">],</span><span class="pln"><br>&nbsp; </span><span class="pun">[</span><span class="str">'Coogee Beach'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.923036</span><span class="pun">,</span><span class="pln"> </span><span class="lit">151.259052</span><span class="pun">,</span><span class="pln"> </span><span class="lit">5</span><span class="pun">],</span><span class="pln"><br>&nbsp; </span><span class="pun">[</span><span class="str">'Cronulla Beach'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">34.028249</span><span class="pun">,</span><span class="pln"> </span><span class="lit">151.157507</span><span class="pun">,</span><span class="pln"> </span><span class="lit">3</span><span class="pun">],</span><span class="pln"><br>&nbsp; </span><span class="pun">[</span><span class="str">'Manly Beach'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.80010128657071</span><span class="pun">,</span><span class="pln"> </span><span class="lit">151.28747820854187</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">],</span><span class="pln"><br>&nbsp; </span><span class="pun">[</span><span class="str">'Maroubra Beach'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">-</span><span class="lit">33.950198</span><span class="pun">,</span><span class="pln"> </span><span class="lit">151.259302</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">]</span><span class="pln"><br></span><span class="pun">];</span><span class="pln"><br><br></span><span class="kwd">function</span><span class="pln"> setMarkers</span><span class="pun">(</span><span class="pln">map</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; </span><span class="com">// Adds markers to the map.</span><span class="pln"><br><br>&nbsp; </span><span class="com">// Marker sizes are expressed as a Size of X,Y where the origin of the image</span><span class="pln"><br>&nbsp; </span><span class="com">// (0,0) is located in the top left of the image.</span><span class="pln"><br><br>&nbsp; </span><span class="com">// Origins, anchor positions and coordinates of the marker increase in the X</span><span class="pln"><br>&nbsp; </span><span class="com">// direction to the right and in the Y direction down.</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> image </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; url</span><span class="pun">:</span><span class="pln"> </span><span class="str">'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="com">// This marker is 20 pixels wide by 32 pixels high.</span><span class="pln"><br>&nbsp; &nbsp; size</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Size</span><span class="pun">(</span><span class="lit">20</span><span class="pun">,</span><span class="pln"> </span><span class="lit">32</span><span class="pun">),</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="com">// The origin for this image is (0, 0).</span><span class="pln"><br>&nbsp; &nbsp; origin</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">),</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="com">// The anchor for this image is the base of the flagpole at (0, 32).</span><span class="pln"><br>&nbsp; &nbsp; anchor</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">32</span><span class="pun">)</span><span class="pln"><br>&nbsp; </span><span class="pun">};</span><span class="pln"><br>&nbsp; </span><span class="com">// Shapes define the clickable region of the icon. The type defines an HTML</span><span class="pln"><br>&nbsp; </span><span class="com">// &lt;area&gt; element 'poly' which traces out a polygon as a series of X,Y points.</span><span class="pln"><br>&nbsp; </span><span class="com">// The final coordinate closes the poly by connecting to the first coordinate.</span><span class="pln"><br>&nbsp; </span><span class="kwd">var</span><span class="pln"> shape </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; coords</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">20</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">,</span><span class="pln"> </span><span class="lit">20</span><span class="pun">,</span><span class="pln"> </span><span class="lit">18</span><span class="pun">,</span><span class="pln"> </span><span class="lit">1</span><span class="pun">],</span><span class="pln"><br>&nbsp; &nbsp; type</span><span class="pun">:</span><span class="pln"> </span><span class="str">'poly'</span><span class="pln"><br>&nbsp; </span><span class="pun">};</span><span class="pln"><br>&nbsp; </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln"> i </span><span class="pun">&lt;</span><span class="pln"> beaches</span><span class="pun">.</span><span class="pln">length</span><span class="pun">;</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">var</span><span class="pln"> beach </span><span class="pun">=</span><span class="pln"> beaches</span><span class="pun">[</span><span class="pln">i</span><span class="pun">];</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">var</span><span class="pln"> marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">lat</span><span class="pun">:</span><span class="pln"> beach</span><span class="pun">[</span><span class="lit">1</span><span class="pun">],</span><span class="pln"> lng</span><span class="pun">:</span><span class="pln"> beach</span><span class="pun">[</span><span class="lit">2</span><span class="pun">]},</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; icon</span><span class="pun">:</span><span class="pln"> image</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; shape</span><span class="pun">:</span><span class="pln"> shape</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; title</span><span class="pun">:</span><span class="pln"> beach</span><span class="pun">[</span><span class="lit">0</span><span class="pun">],</span><span class="pln"><br>&nbsp; &nbsp; &nbsp; zIndex</span><span class="pun">:</span><span class="pln"> beach</span><span class="pun">[</span><span class="lit">3</span><span class="pun">]</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="pun">});</span><span class="pln"><br>&nbsp; </span><span class="pun">}</span><span class="pln"><br></span><span class="pun">}</span></pre>
+
+<p><a href="https://developers.google.com/maps/documentation/javascript/examples/icon-complex?hl=zh-tw">檢視範例 (icon-complex.html)</a>。</p>
+
+<h4 id="convertingtoicon">將 <code>MarkerImage</code> 物件轉換為 <code>Icon</code> 類型</h4>
+
+<p>在 Google Maps JavaScript API 版本 3.10 之前，複雜圖示都是定義為 <code>MarkerImage</code> 物件。<code>Icon</code> 物件常值於版本 3.10 新增，並從版本 3.11 開始取代 <code>MarkerImage</code>。<code>Icon</code> 物件常值支援與 <code>MarkerImage</code> 相同的參數，以便您透過移除建構函式，將之前的參數包覆在 <code>{}</code> 內，然後新增每個參數的名稱，來輕鬆地將 <code>MarkerImage</code> 轉換為 <code>Icon</code>。例如：</p>
+
+<pre class="prettyprint notranslate"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">var</span><span class="pln"> image </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">MarkerImage</span><span class="pun">(</span><span class="pln"><br>&nbsp; &nbsp; place</span><span class="pun">.</span><span class="pln">icon</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Size</span><span class="pun">(</span><span class="lit">71</span><span class="pun">,</span><span class="pln"> </span><span class="lit">71</span><span class="pun">),</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">),</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">17</span><span class="pun">,</span><span class="pln"> </span><span class="lit">34</span><span class="pun">),</span><span class="pln"><br>&nbsp; &nbsp; </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Size</span><span class="pun">(</span><span class="lit">25</span><span class="pun">,</span><span class="pln"> </span><span class="lit">25</span><span class="pun">));</span></pre>
+
+  <p>變成</p>
+
+<pre class="prettyprint notranslate"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">var</span><span class="pln"> image </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; url</span><span class="pun">:</span><span class="pln"> place</span><span class="pun">.</span><span class="pln">icon</span><span class="pun">,</span><span class="pln"><br>&nbsp; size</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Size</span><span class="pun">(</span><span class="lit">71</span><span class="pun">,</span><span class="pln"> </span><span class="lit">71</span><span class="pun">),</span><span class="pln"><br>&nbsp; origin</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">),</span><span class="pln"><br>&nbsp; anchor</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Point</span><span class="pun">(</span><span class="lit">17</span><span class="pun">,</span><span class="pln"> </span><span class="lit">34</span><span class="pun">),</span><span class="pln"><br>&nbsp; scaledSize</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Size</span><span class="pun">(</span><span class="lit">25</span><span class="pun">,</span><span class="pln"> </span><span class="lit">25</span><span class="pun">)</span><span class="pln"><br></span><span class="pun">};</span></pre>
+
+<h3 id="symbols">符號</h3>
+
+<p>標記除了支援光柵影像之外，也支援顯示稱為 <code>Symbols</code> 的向量路徑。如果要顯示向量路徑，請傳遞一個 <code>Symbol</code> 物件常值，其中包含前往標記 <code>icon</code> 屬性的所需路徑。您可以使用 <a href="https://developers.google.com/maps/documentation/javascript/reference?hl=zh-tw#SymbolPath">google.maps.SymbolPath</a> 的其中一個預先定義路徑，或使用 <a href="http://www.w3.org/TR/SVG/paths.html#PathData">SVG 路徑標記法</a>定義自訂路徑。</p>
+
+<p>如需詳細資訊，請參閱<a href="https://developers.google.com/maps/documentation/javascript/symbols?hl=zh-tw">符號文件</a>。
+</p>
+
+<h2 id="draggable"><a href="#top_of_page" class="devsite-back-to-top-link material-icons" data-tooltip-align="b,c" data-tooltip="返回頁首" aria-label="返回頁首" data-title="返回頁首"></a>建立可拖曳的標記</h2>
+
+<p>為了讓使用者能夠將標記拖曳到地圖上的其他位置，請在標記選項中將 <code>draggable</code> 設成 <code>true</code>。</p>
+
+<pre class="prettyprint notranslate lang-javascript"><div class="devsite-code-button-wrapper"><div class="devsite-code-button gc-analytics-event material-icons devsite-dark-code-button" data-category="Site-Wide Custom Events" data-label="Dark Code Toggle" track-type="exampleCode" track-name="darkCodeToggle" data-tooltip-align="b,c" data-tooltip="深色程式碼主題" aria-label="深色程式碼主題" data-title="深色程式碼主題"></div><div class="devsite-code-button gc-analytics-event material-icons devsite-click-to-copy-button" data-category="Site-Wide Custom Events" data-label="Click To Copy" track-type="exampleCode" track-name="clickToCopy" data-tooltip-align="b,c" data-tooltip="按這個按鈕即可複製" aria-label="按這個按鈕即可複製" data-title="按這個按鈕即可複製"></div></div><span class="kwd">var</span><span class="pln"> myLatlng </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">LatLng</span><span class="pun">(-</span><span class="lit">25.363882</span><span class="pun">,</span><span class="lit">131.044922</span><span class="pun">);</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> mapOptions </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln"><br>&nbsp; zoom</span><span class="pun">:</span><span class="pln"> </span><span class="lit">4</span><span class="pun">,</span><span class="pln"><br>&nbsp; center</span><span class="pun">:</span><span class="pln"> myLatlng<br></span><span class="pun">}</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> map </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Map</span><span class="pun">(</span><span class="pln">document</span><span class="pun">.</span><span class="pln">getElementById</span><span class="pun">(</span><span class="str">"map"</span><span class="pun">),</span><span class="pln"> mapOptions</span><span class="pun">);</span><span class="pln"><br><br></span><span class="com">// Place a draggable marker on the map</span><span class="pln"><br></span><span class="kwd">var</span><span class="pln"> marker </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> google</span><span class="pun">.</span><span class="pln">maps</span><span class="pun">.</span><span class="typ">Marker</span><span class="pun">({</span><span class="pln"><br>&nbsp; &nbsp; position</span><span class="pun">:</span><span class="pln"> myLatlng</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; map</span><span class="pun">:</span><span class="pln"> map</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; draggable</span><span class="pun">:</span><span class="kwd">true</span><span class="pun">,</span><span class="pln"><br>&nbsp; &nbsp; title</span><span class="pun">:</span><span class="str">"Drag me!"</span><span class="pln"><br></span><span class="pun">});</span></pre>
+
+
+  </div>

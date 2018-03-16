@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>將資料匯入地圖</title>
+  <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    var map;
+    function initMap(){
+      map = new google.maps.Map(document.getElementById('map'),{
+        zoom:2,
+        center:new google.maps.LatLng(2.8,-187.3),
+        mapTypeId: 'terrain'
+      });
+      // Create a <script> tag and set the USGS URL as the source.
+      var script = document.createElement('script');
+      // This example uses a local copy of the GeoJSON stored at
+      // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+      }
+      // Loop through the results array and place a marker for each
+      // set of coordinates.
+      function eqfeed_callback(results) {
+        for (var i = 0; i < results.features.length; i++) {
+          var coords = results.features[i].geometry.coordinates;
+          var latLng = new google.maps.LatLng(coords[1],coords[0]);
+          var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+          });
+        }
+    }
+    //eqfeed_callback實際上是一支被包在earthquake_GeoJSONP.js中的物件
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGO5bWxnakmnsDVzWrhMhLqACbbwLf6JA&callback=initMap">
+  </script>
+</body>
+</html>
+<!--
+  載入資料:
+
+    **從相同的網域載入資料:
+      Google 地圖資料圖層提供容納任意地理空間資料的容器（包括 GeoJSON）。 如果您的資料位於裝載在和 Maps JavaScript API 應用程式相同網域上的檔案中，您可以使用 map.data.loadGeoJson()方法載入它。該檔案必須位於相同的網域上，但您可以將它代管在不同的子網域中。
+
+    **跨網域載入資料:
+      您也可以從其他不屬於您的網域要求資料，前提是該網域的設定允許此類要求。 此權限的標準稱為跨原始來源資源共用 (CORS)。
+      如果網域允許跨網域要求，它的回應標頭應該包含下列宣告：Access-Control-Allow-Origin: *
+      使用 Chrome 開發人員工具 (DevTools)(Chrome F12(Network)) 來了解網域是否已啟用 CORS。
+
+    **要求 JSONP:
+      使用 createElement() 將 script 標記新增到文件開頭。
+      例如本例中的:var script = document.createElement('script');
+                  script.src = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp';
+                  document.getElementsByTagName('head')[0].appendChild(script);     
+      當該指令碼執行時，目標網域會傳遞資料做為 another script 的引數，通常名為 callback()。 目標網域會定義回呼指令碼名稱，該名稱是您在瀏覽器中載入目標網址時，頁面上的第一個名稱。
+      必須在程式碼中定義回呼指令碼：
+      例如本例的:function eqfeed_callback(response) {
+                  map.data.addGeoJson(response);
+                }
+      使用 addGeoJson() 方法將已剖析的 GeoJSON 資料放置在地圖上。
+-->
