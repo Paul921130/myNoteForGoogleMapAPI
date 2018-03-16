@@ -97,8 +97,7 @@
 
 依照下面的步驟執行以新增標記群集：
 
-&emsp;1.從 GitHub 取得標記群集程式庫與影像，並將它們儲存在應用程式可以存取的伺服器上。
-&emsp;&emsp;適用於 MarkerClusterer 的 JavaScript 程式庫與影像檔可在 GitHub 的 Google 地圖存放區中取得。將下列檔案從 GitHub 下載或複製到應用程式可以存取的位置：
+&emsp;1.從 GitHub 取得標記群集程式庫與影像，並將它們儲存在應用程式可以存取的伺服器上。適用於 MarkerClusterer 的 JavaScript 程式庫與影像檔可在 GitHub 的 Google 地圖存放區中取得。將下列檔案從 GitHub 下載或複製到應用程式可以存取的位置：
 
 &emsp;&emsp;
 
