@@ -111,9 +111,22 @@
 <br>
   &emsp;&emsp;●&nbsp;[m5.png](https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m5.png)
 
-
-
+2.新增標記群集程式庫到您的頁面。
+&nbsp;在這次的案例中，下面的指令碼會指定 https://developers.google.com 上 markerclusterer.js 程式庫檔案的位置。
+```html
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+```
+3.在應用程式中新增標記群集
+&nbsp;下面的程式碼會將標記群集新增到地圖。
+```javascript
+var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+```
+這種做法會將markers 陣列傳遞到 MarkerClusterer。它也在 imagePath 參數中指定所有五個影像檔的位置。使用指向之前儲存相同影像檔位置的路徑來取代它。
 &emsp;&emsp;
+
+&nbsp;
 
 ```html
 
