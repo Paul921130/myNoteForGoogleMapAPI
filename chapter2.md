@@ -127,16 +127,3 @@ var markerCluster = new MarkerClusterer(map, markers,
 &emsp;&emsp;
 
 &nbsp;
-
-```html
-
-```
-
-
-```css
-
-```
-
-```javascript
-
-```
