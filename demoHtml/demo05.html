@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>將資料視覺化：地震繪測</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: new google.maps.LatLng(2.8,-187.3),
+          mapTypeId: 'terrain'
+        });
+
+        //匯入資料
+        //此例透過將 script 標記附加到文件開頭，直接從 USGS 伺服器要求 JSONP。
+        // Create a <script> tag and set the USGS URL as the source.
+        var script = document.createElement('script');
+        // This example uses a local copy of the GeoJSON stored at
+        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+        // Create a <script> tag and set the USGS URL as the source.
+        
+        //圓形圖的setStyle()
+        map.data.setStyle(function(feature) {
+                var magnitude = feature.getProperty('mag');
+                return {
+                  icon: getCircle(magnitude)
+                };
+              });
+      }
+
+      //圓形圖的getCircle()
+      function getCircle(magnitude) {                
+            return {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: 'red',
+              fillOpacity: .2,
+              scale: Math.pow(2, magnitude) / 2,
+              strokeColor: 'white',
+              strokeWeight: .5
+            };
+      }  
+      
+      // 圓形圖的eqfeed_callback()
+      function eqfeed_callback(results) {  
+        map.data.addGeoJson(results);
+      }
+          
+      //默認marker的eqfeed_callback()
+      // Loop through the results array and place a marker for each
+      // set of coordinates.
+      // window.eqfeed_callback = function(results) {
+      //   for (var i = 0; i < results.features.length; i++) {
+      //     var coords = results.features[i].geometry.coordinates;
+      //     var latLng = new google.maps.LatLng(coords[1],coords[0]);
+      //     var marker = new google.maps.Marker({
+      //       position: latLng,
+      //       map: map
+      //     });
+      //   }
+      // }
+
+      //熱度圖的eqfeed_callback()
+        // function eqfeed_callback(results) {
+        //     var heatmapData = [];
+        //     for (var i = 0; i < results.features.length; i++) {
+        //       var coords = results.features[i].geometry.coordinates;
+        //       var latLng = new google.maps.LatLng(coords[1], coords[0]);
+        //       heatmapData.push(latLng);
+        //     }
+        //     var heatmap = new google.maps.visualization.HeatmapLayer({
+        //       data: heatmapData,
+        //       dissipating: false,
+        //       map: map
+        //     });
+        //   }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGO5bWxnakmnsDVzWrhMhLqACbbwLf6JA&callback=initMap">
+    </script>
+  </body>
+</html>
+<!--
+  使用圖形與熱度圖來自訂地圖
+
+    *使用圓形大小:
+     可以使用符號來繪製大小與地震級數相關的圓形(或任何其他圖形)。
+     code:map.data.setStyle(function(feature) {           //此function要放入initMap()中
+              var magnitude = feature.getProperty('mag'); //新增樣式到getCircle() 函式的「資料圖層」。
+              return {                                    //建立marker的自訂影像
+                icon: getCircle(magnitude)
+              };
+          });
+        
+
+          function getCircle(magnitude) {                 //magnitude屬性會傳遞到這個function
+            return {                                      //getCircle() 會繪製一個大小由級數值定義的圓形(上面已經新增過了)
+              path: google.maps.SymbolPath.CIRCLE,        //並將該圓形傳回以做為地震的自訂標記來使用。
+              fillColor: 'red',
+              fillOpacity: .2,
+              scale: Math.pow(2, magnitude) / 2,
+              strokeColor: 'white',
+              strokeWeight: .5
+            };
+          }
+          
+          function eqfeed_callback(results) {
+            map.data.addGeoJson(results);
+          }  
+    
+    *使用熱度圖:
+     視覺化程式庫中的熱度圖圖層提供簡單卻有效顯示地震分佈的方式。熱度圖使用色彩來代表點的密度，這樣可以更輕鬆地找出高度活躍區域。
+     code:function eqfeed_callback(results) {                             //USGS的資料會先傳遞至eqfeed_callback()
+            var heatmapData = [];                                         //新增每個地震的座標至 heatmapData 陣列。
+            for (var i = 0; i < results.features.length; i++) {           
+              var coords = results.features[i].geometry.coordinates;      
+              var latLng = new google.maps.LatLng(coords[1], coords[0]);
+              heatmapData.push(latLng);
+            }
+            var heatmap = new google.maps.visualization.HeatmapLayer({    //然後，該陣列會傳遞至 HeatmapLayer建構函式，
+              data: heatmapData,                                          //建構函式建立熱度圖並在地圖上顯示它。
+              dissipating: false, 
+              map: map
+            });
+          }
+
+          visualization 程式庫用來顯示熱度圖。它包含 HeatmapLayer 類別。
+          當使用程式庫時，必須在呼叫 Maps API JavaScript 時將其載入。
+          <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGO5bWxnakmnsDVzWrhMhLqACbbwLf6JA&libraries=visualization&callback=initMap">
+          </script>
+-->

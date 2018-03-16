@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>新增含標記的 GoogleMap</title>
+  <style>
+    #map{
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h3>新增含標記的Google Map</h3>
+  <div id="map"></div>
+  <script>
+    //initMap 函式會在網頁載入時初始化並新增地圖。 使用 script 標記包含您自己的 JavaScript （其中包含 initMap 函式）。
+    function initMap() {
+      var my_home={lat:24.9985509, lng:121.5107895};
+      //可先建立一個變量儲存經緯度
+      var map = new google.maps.Map(document.getElementById('map'),{
+        zoom:20,
+        center:my_home
+      });
+      //new google.maps.Map()新增這個新的 Google 地圖物件，以在 div 元素中建構地圖。
+      //新增屬性（包括中心與縮放層級）到地圖。 請參閱 其他屬性選項的文件。 center 屬性會告知 API 要在哪裡放置地圖中心。 地圖座標是以下列順序設定：緯度、經度。 zoom 屬性指定地圖的縮放層級。
+      var marker= new google.maps.Marker({
+        position:my_home,
+        map:map
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGO5bWxnakmnsDVzWrhMhLqACbbwLf6JA&callback=initMap"></script>
+  <!--script 會從指定的網址載入 API。 當 API 完全載入之後，callback 參數會執行 initMap 函式。 載入 API 時，async 屬性可讓瀏覽器繼續轉譯網頁的剩餘部分。 -->
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SimpleMap</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <style>
+    #map{
+      height: 100vh;
+    }
+    html, body{
+      height: 100vh;
+      margin:0;
+      padding: 0; 
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    var map;
+    function initMap(){
+      map = new google.maps.Map(document.getElementById('map'),{
+        center: {lat:24.9985509, lng:121.5107895},
+        zoom:20
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGO5bWxnakmnsDVzWrhMhLqACbbwLf6JA&callback=initMap"
+    async defer></script>  
+</body>
+</html>
+<!--
+  1.使用<!DOCTYPE html> 宣告，來將應用程式宣告為 HTML5
+  2.建立一個ID為「map」的 div 元素來容納地圖
+  3.在 div 中定義建立地圖的 JavasScript 函式。
+  4.使用 script 標記載入 Maps JavaScript API。
+
+  載入Google Maps JavaScript API:
+    
+    script 標記中所包含的網址是一個 JavaScript 檔案的位置，這個檔案會載入您使用 Maps JavaScript API 所需的所有符號與定義。必須有這個 script 標記。
+    
+    async 屬性讓瀏覽器在 Maps JavaScript API 載入期間轉譯您網站上的其餘內容。當 API 準備就緒時，它會呼叫透過 callback 參數所指定的函式。
+    
+    key 參數包含您應用程式的 API 金鑰(到googleMapApi專案裡面找)。
+
+  地圖選項:
+    每個地圖有兩個必要選項：center 和 zoom。
+
+  縮放層級(zoom):
+    1：全世界
+    5：地塊/大陸
+    10：城市
+    15：街道
+    20：建築物
+
+  地圖物件:
+    
+    map = new google.maps.Map(document.getElementById("map"), {...}); 
+    
+    map類別是表示地圖的 JavaScript 類別。這些類別的物件可定義頁面上的單個地圖
+    (可以為此類別建立一個以上的執行個體，每個物件會定義頁面上的個別地圖。)
+    
+    使用 JavaScript new 運算子建立此類別的新執行個體。在建立新的地圖執行個體時，要在頁面內指定 <div> HTML 元素做為地圖的容器。HTML 節點是 JavaScript document 物件的子項，我們會透過 document.getElementById() 方法取得對此元素的參照。     
+-->
