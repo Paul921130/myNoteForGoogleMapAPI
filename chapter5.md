@@ -311,6 +311,8 @@ var marker = new google.maps.Marker({
 });
 ```
 
+以上資料來自[Google Maps API：標記](https://developers.google.com/maps/documentation/javascript/markers?hl=zh-tw)。
+
 &emsp;&emsp;
 
 &nbsp;

@@ -101,6 +101,7 @@ function eqfeed_callback(response) {
 }
 ```
 
+以上資料來自[將資料匯入到地圖](https://developers.google.com/maps/documentation/javascript/importing_data?hl=zh-tw)。
 &emsp;&emsp;
 
 &nbsp;

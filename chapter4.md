@@ -282,6 +282,7 @@ function eqfeed_callback(results) {
 ```
 若要依照級數將結果加權，您可以改為將 [WeightedLocation](https://developers.google.com/maps/documentation/javascript/reference?hl=zh-tw#WeightedLocation) 物件傳遞至 heatmapData 陣列。
 
+以上資料來自[將資料視覺化：地震繪測](https://developers.google.com/maps/documentation/javascript/earthquakes?hl=zh-tw)。
 &emsp;&emsp;
 
 &nbsp;
