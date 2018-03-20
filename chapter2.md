@@ -124,6 +124,9 @@ var markerCluster = new MarkerClusterer(map, markers,
       }
 ```
 這種做法會將markers 陣列傳遞到 MarkerClusterer。它也在 imagePath 參數中指定所有五個影像檔的位置。使用指向之前儲存相同影像檔位置的路徑來取代它。
+
+以上資料來自[標記群集](https://developers.google.com/maps/documentation/javascript/marker-clustering?hl=zh-tw)。
+
 &emsp;&emsp;
 
 &nbsp;
