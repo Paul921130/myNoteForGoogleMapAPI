@@ -10,9 +10,9 @@
 google.maps.Marker 建構函式使用單一 Marker options 物件常值，用來指定標記的初始屬性。
 下列欄位特別重要，並時常會在建構標記時設定：(如Map的center)
 
-&emsp;●&nbsp;position （必要）指定識別標記初始位置的 LatLng。擷取 LatLng 的一種方法是使用地理編碼服務。
+* position （必要）指定識別標記初始位置的 LatLng。擷取 LatLng 的一種方法是使用地理編碼服務。
 
-&emsp;●&nbsp;map（選擇性）指定放置標記的Map。如果您沒有在建構標記時指定地圖，系統還是會建立標記，但是該標記將不會附加到地圖（或是在地圖上顯示）。您可以透過呼叫標記的 setMap() 方法來於稍後新增標記。
+* map（選擇性）指定放置標記的Map。如果您沒有在建構標記時指定地圖，系統還是會建立標記，但是該標記將不會附加到地圖（或是在地圖上顯示）。您可以透過呼叫標記的 setMap() 方法來於稍後新增標記。
 
 下列範例會將一個簡單的標記新增到位於澳洲中央烏盧魯的地圖：
 ```js
@@ -70,9 +70,9 @@ marker.setMap(null);
 建立動畫標記來使它們在各種不同的情況下展現動態的動作。如果要指定標記的動畫方式，請使用標記的 animation 屬性，它屬於 google.maps.Animation 類型。
 以下是支援的 Animation 值：
 
-&emsp;●&nbsp;DROP 指出標記在一開始放置於地圖上時，要從地圖的上方掉落到最終位置。標記停止時，動畫也會停止，animation 會回復到 null。這個動畫類型通常是在建立 Marker 時指定。
+* DROP 指出標記在一開始放置於地圖上時，要從地圖的上方掉落到最終位置。標記停止時，動畫也會停止，animation 會回復到 null。這個動畫類型通常是在建立 Marker 時指定。
 
-&emsp;●&nbsp;BOUNCE 指出標記在原地彈跳。彈跳標記會持續彈跳，直到它的 animation 屬性明確設成 null 才會停止。
+* BOUNCE 指出標記在原地彈跳。彈跳標記會持續彈跳，直到它的 animation 屬性明確設成 null 才會停止。
 在 Marker 物件上呼叫 setAnimation()，可在現有標記上初始化一個動畫。
 
 ```js

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+    // The following example creates a marker in Stockholm, Sweden using a DROP
+    // animation. Clicking on the marker will toggle the animation between a BOUNCE
+    // animation and no animation.
+    var map;
+    var marker = [];
+    var position = [
+        { label: 'A', lat: 35.0336962, lng: 111.5643673 },
+        { label: 'B', lat: 15.0333698, lng: 111.5641564 },
+        { label: 'C', lat: 27.033899, lng: 111.564329 },
+        { label: 'D', lat: 28.0338407, lng: 114.5645269 },
+        { label: 'E', lat: 29.0336377, lng: 116.5645727 }
+    ];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 5,
+            center: { lat: 25.0336962, lng: 121.5643673 }
+        });
+        for (var e = 0; e < position.length; e++) {
+            addMarker(e);
+        };
+    }
+
+    //設定Marker陣列生出的addMarker function
+    //可以使用 setTimeout() 建立間隔
+    function addMarker(e) {
+      setTimeout(function(){
+        marker.push(new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            position: {
+                lat: position[e].lat,
+                lng: position[e].lng
+            }
+        }));
+      },e*950);
+    }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyCLT9UiLJPX_FpoH18zS1qBm47xvRBZN2A&callback=initMap">
+    </script>
+</body>
+</html>
