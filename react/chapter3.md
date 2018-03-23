@@ -214,3 +214,11 @@ class TodoApp extends React.Component {
 
 ReactDOM.render(<TodoApp />, document.getElementById('app'));
 ```
+
+除了範例中的```onChange```和```onSubmit```外，React也封裝了常用的事件處理，如```onClick```等。若想更進一步了解哪些可以使用的事件處理方法可以參考[官方網站上的EventSystem](https://reactjs.org/docs/events.html)
+
+## Refs與表單處理
+
+上面介紹了props（傳入后就不能修改）、state（隨著使用者互動而改變）和事件處理機制后，我們將接續介紹如何在React中進行表單處理，以下使用React官網範例A Component Using External Plugins 進行介紹。由於React可以容易整合外部的libraries（例如：jQery），本範例將使用remarkable結合ref屬性取出DOM Value值（另外比較常用的作法是使用onChange事件處理方式處理表單內容），讓使用者可以使用Markdown語法所見即得編輯器（editor）。
+
+HTML Markup（除了引入```react```、```react-dom```還要用```CDN```方式引入```remarkable```這個```Markdown```所見即所得編輯器）
