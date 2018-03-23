@@ -1,128 +1,73 @@
-# 新增含標記的 Google 地圖到您的網站
+# ReactJS與Component設計入門介紹
 
-## 簡介
+## ReactJS特性簡介
 
-### 自己試試看
+1. 基於元件（Component）化思考
 
-```html
-<!DOCTYPE html>
-<html>
-	<head>
-	    <style>
-	       #map {
-	        height: 400px;
-	        width: 100%;
-	       }
-	    </style>
-	  </head>
-	  <body>
-	    <h3>My Google Maps Demo</h3>
-	    <div id="map"></div>
-	    <script>
-	      function initMap() {
-	        var uluru = {lat: -25.363, lng: 131.044};
-	        var map = new google.maps.Map(document.getElementById('map'), {
-	          zoom: 4,
-	          center: uluru
-	        });
-	        var marker = new google.maps.Marker({
-	          position: uluru,
-	          map: map
-	        });
-	      }
-	    </script>
-	    <script async defer
-	    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-	    </script>
-	  </body>
-</html>
+2. 用JSX進行宣告式（Declarative）UI設計
+
+3. 使用Virtual DOM
+
+4. Component Prototype 防呆機制
+
+5. Component 就像一個狀態機（State Machine），而且也有生命週期（Life Cycle）
+
+6. 一律重繪（Always Redraw）和單向資料流（Unidirectional Data Flow）
+
+7. 在JavaScript 裡寫CSS：Inline Style
+
+### 什麼是元件（Component）？
+
+在React中最基本的單元位元件（Component），每個元件也都可以包含一個以上的子元件，并依照需求組裝成一個組合式的（Composable）元件，所以具有封裝（encapsulation）、關注點分離（Separation of Concerns）、複用（Reuse）、組合 (Compose) 等特性。
+
+而每一個元件都可以包含一個或以上的字元件，如```<TodoApp>``` 元件可以包含 ```<TodoHeader />```、```<TodoList />``` 子元件。
 
 ```
-
-## 新增含標記的地圖
-如何將 Google Maps JavaScript API 載入到您的網頁，以及如何撰寫自己的 Javascript 以使用 API 在其上新增含標記的地圖。
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
-  </head>
-  <body>
-    <h3>My Google Maps Demo</h3>
-    <div id="map"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-    </script>
-  </body>
-</html>
+<div>
+    <TodoHeader />
+    <TodoList />
+</div>
 ```
 
-### 程式碼詳解
+```<TodoList>```元件的內部長相：
 
-```html
-<script>
-async defer
-src ="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
-</script>
 ```
-script 會從指定的網址載入 API。 當 API 完全載入之後，callback 參數會執行 initMap 函式。 載入 API 時，async 屬性可讓瀏覽器繼續轉譯網頁的剩餘部分。key 參數包含您的 API 金鑰。 在 JSFiddle 中實驗此教學課程時，您不需要自己的 API 金鑰。 請參閱步驟 3：取得 API 金鑰以取得有關如何在稍後取得 API 金鑰的操作說明。
+<div>
+    <ul>
+      <li>寫程式碼</li>
+      <li>哄妹子</li>
+      <li>買書</li>
+    </ul>
+</div>
+```
 
-```html
-<script>
-  function initMap() {
+### 以下是一般React Component撰寫的主要兩種方式：
+
+1.使用ES6的Class（可以進行比較複雜的操作和元件生命週期的控制，相對於stateless components來說更耗費資源）,例如：
+
+```
+//  注意元件開頭第一個字母都要大寫
+class MyComponent extends React.Component {
+  // render 是 Class based 元件唯一必須的方法（method）
+  render() {
+    return (
+      <div>Hello, World!</div>
+    );
   }
-</script>
-```
-initMap 函式會在網頁載入時初始化並新增地圖。 使用 script 標記包含您自己的 JavaScript （其中包含 initMap 函式）。
-
-```javascript
-getElementById
-```
-新增此函式以在網頁上尋找地圖 div。
-
-```javascript
-{
-  var uluru = {lat: -25.363, lng: 131.044};
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: uluru
-  });
-
 }
+
+// 將 <MyComponent /> 元件插入 id 為 app 的 DOM 元素中
+ReactDOM.render(<MyComponent/>, document.getElementById('app'));
 ```
-新增屬性（包括中心與縮放層級）到地圖。 請參閱 其他屬性選項的文件。 
-center 屬性會告知 API 要在哪裡放置地圖中心。 地圖座標是以下列順序設定：緯度、經度。 
-zoom 屬性指定地圖的縮放層級。 
-縮放：0 是最低的縮放，而且會顯示整個地球。設定較高的縮放值可以較高的解析度放大地球。
 
-```javascript
-var marker = new google.maps.Marker({
-  position: uluru,
-  map: map
-});
+2.使用Functional Component寫法（單純地 render UI 的 stateless components，沒有內部狀態、沒有實作物件和 ref，沒有生命週期函數。若非需要控制生命週期的話建議多使用 stateless components 獲得比較好的效能），例如：
+
 ```
-新增此程式碼以在地圖上放置標記。 position 屬性可設定標記的位置。
+// 使用 arrow function 來設計 Functional Component 讓 UI 設計更單純（f(D) => UI），減少副作用（side effect）
+const MyComponent = () => (
+  <div>Hello, World!</div>
+);
 
-以上資料來自[新增含標記的Google](https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=zh-tw)。
-
-
-
+// 將 <MyComponent /> 元件插入 id 為 app 的 DOM 元素中
+ReactDOM.render(<MyComponent/>, document.getElementById('app'));
+```
